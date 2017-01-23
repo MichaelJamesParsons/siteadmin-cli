@@ -1,16 +1,28 @@
 #!/usr/bin/env bash
 
+sudo yum -y install wget
+
 # Install Git
 sudo yum -y install git
 
-# Install PHP 5.6
-sudo yum replace php --replace-with php56u
+# Install ruby 2.0
+sudo yum -y install ruby
+sudo gem install bundler
+
+# Install PHP 7.0
+sudo yum -y update
 sudo yum -y install epel-release
 sudo wget https://dl.fedoraproject.org/pub/epel/epel-release-latest-6.noarch.rpm
 sudo wget https://centos6.iuscommunity.org/ius-release.rpm
 sudo rpm -Uvh ius-release*.rpm
-sudo yum -y install php56u php56u-opcache php56u-xml php56u-mcrypt php56u-gd php56u-devel php56u-mysql php56u-intl php56u-mbstring php56u-bcmath
-#sudo yum -y install php php-mysql php-common php-gd php-mbstring php-mcrypt php-devel php-xml -y
+sudo yum -y update
+
+sudo yum install -y http://dl.iuscommunity.org/pub/ius/stable/CentOS/7/x86_64/ius-release-1.0-14.ius.centos7.noarch.rpm
+sudo yum -y update
+
+sudo yum -y install php70u php70u-pdo php70u-mysqlnd php70u-opcache php70u-xml php70u-mcrypt php70u-gd php70u-devel php70u-mysql php70u-intl php70u-mbstring php70u-bcmath php70u-json php70u-iconv
+
+sudo yum-config-manager --enable http://rpms.famillecollet.com/enterprise/remi-release-7.rpm
 
 # Install composer
 cd /tmp

@@ -4,17 +4,21 @@ require 'thor'
 class Siteadmin < Thor
   # Installs a new siteadmin project.
   #
+  # @todo create siteadmin-installer.json file
+  # @todo create database user
+  # @todo send POST request to setupController
+  #
   # @param [string] project_name
   # @param [string] domain
   desc 'install', 'Install a new Site Administrator project.'
   options :p => :string
   def install(project_name)
-    unless project_name =~ /^[a-zA-Z]*$/
+    unless project_name =~ /^[a-zA-Z_]*$/
       puts "Invalid project name \"#{project_name}\". Project name may only contain alphabetic characters and underscores."
     end
 
     puts "installing app...#{project_name}"
-    system('../bin/siteadmin_install.sh')
+    system('bash ./../bin/siteadmin_install.sh')
     puts 'Installation complete'
   end
 

@@ -136,3 +136,6 @@ cd /vagrant/application/siteadmin
 
 echo "Installing composer dependencies"
 /usr/local/bin/composer install
+
+echo "Updating database"
+php vagrant/application/siteadmin/includes/app.php -e=production -c=doctrine orm:schema:update
