@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
 
+echo "Building SA3 directory structure"
+
 # Build siteadmin directory structure
 mkdir -p /vagrant/application
-cd /vagrant/application
 
+cd /vagrant/application
 declare -a sa_directories=(
     "html"
     "uploads"
@@ -25,6 +27,8 @@ for dir in "${sa_directories[@]}"
 do
     mkdir -p ${dir}
 done
+
+echo "Installing bootstrap files"
 
 # Make index.php file
 cat > html/index.php << EOF
@@ -89,6 +93,8 @@ session_start();
 EOF
 
 # Make .gitignore files
+echo "Initializing .gitignore files"
+
 cat > .gitignore << EOF
 *.DS_Store
 *.sublime-project
@@ -126,5 +132,7 @@ cat > uploads/.gitignore << EOF
 *!.gitignore
 EOF
 
-cd siteadmin
+cd /vagrant/application/siteadmin
+
+echo "Installing composer dependencies"
 /usr/local/bin/composer install
