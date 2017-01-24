@@ -11,7 +11,7 @@ class Siteadmin < Thor
   #
   # @todo create siteadmin-installer.json file
   # @todo create database user
-  # @todo send POST request to setupController
+  # @todo execute sa3_config_writer.php
   #
   # @param [string] project_name
   # @param [string] domain

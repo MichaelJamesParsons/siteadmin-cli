@@ -2,3 +2,5 @@
 .vagrant/
 application/
 Gemfile.lock
+.gitignore
+sa3_config_writer.php

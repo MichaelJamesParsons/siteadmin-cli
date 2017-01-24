@@ -8,6 +8,9 @@ sudo yum -y install git
 # Install ruby 2.0
 sudo yum -y install ruby
 sudo gem install bundler
+
+# TODO - Pull siteadmin-cli from Git
+# TODO - Execute bundler in siteadmin-cli install directory
 sudo bundle install
 
 # Install PHP 7.0
