@@ -2,6 +2,11 @@
 require 'thor'
 
 class Siteadmin < Thor
+  desc 'init', 'Install a siteadmin from configuration file.'
+  def init
+
+  end
+
   # Installs a new siteadmin project.
   #
   # @todo create siteadmin-installer.json file

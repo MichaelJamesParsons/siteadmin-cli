@@ -8,6 +8,7 @@ sudo yum -y install git
 # Install ruby 2.0
 sudo yum -y install ruby
 sudo gem install bundler
+sudo bundle install
 
 # Install PHP 7.0
 sudo yum -y update

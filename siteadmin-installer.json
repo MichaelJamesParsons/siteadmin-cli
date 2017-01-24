@@ -1,0 +1,23 @@
+{
+  "applications": [
+    {
+      "name": "Test Application",
+      "domain": "test.app",
+      "repository": {
+        "type": "git",
+        "url": "https://git.elinkstaging.com/mparsons/test-application"
+      },
+      "remote": {
+        "host": "192.168.10.1",
+        "ssh": {
+          "user": "root",
+          "pass": "123456"
+        },
+        "database": {
+          "user": "root",
+          "pass": "123456"
+        }
+      }
+    }
+  ]
+}
