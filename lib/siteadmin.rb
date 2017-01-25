@@ -1,11 +1,11 @@
 #!/usr/bin/env ruby
 require 'thor'
+require File.dirname(__FILE__) + '/siteadmin_cli/json_file_parser'
+require File.dirname(__FILE__) + './siteadmin_cli/my_sql_initializer'
+require File.dirname(__FILE__) + './siteadmin_cli/Exceptions/config_file_not_found_exception'
 
 class Siteadmin < Thor
   desc 'init', 'Install a siteadmin from configuration file.'
-  def init
-
-  end
 
   # Installs a new siteadmin project.
   #
@@ -15,15 +15,25 @@ class Siteadmin < Thor
   #
   # @param [string] project_name
   # @param [string] domain
-  desc 'install', 'Install a new Site Administrator project.'
+  desc 'init', 'Install a new Site Administrator project.'
   options :p => :string
-  def install(project_name)
+  def init(project_name)
     unless project_name =~ /^[a-zA-Z_]*$/
       puts "Invalid project name \"#{project_name}\". Project name may only contain alphabetic characters and underscores."
     end
 
+    begin
+      config = SiteadminCli::JsonFileParser.parse('siteadmin-installer.json')
+    rescue SiteadminCli::Exceptions::ConfigFileNotFoundException
+      config = {}
+    end
+
+    mysql_initializer = SiteadminCli::MySqlInitializer.new
+
+    config2 = mysql_initializer.initialize_config config
+
     puts "installing app...#{project_name}"
-    system('bash ./../bin/siteadmin_install.sh')
+    #system('bash ./../bin/siteadmin_install.sh')
     puts 'Installation complete'
   end
 
