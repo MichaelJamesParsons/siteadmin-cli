@@ -1,11 +1,9 @@
 #!/usr/bin/env ruby
 require 'thor'
-require File.dirname(__FILE__) + '/siteadmin_cli/json_file_parser'
-require File.dirname(__FILE__) + './siteadmin_cli/my_sql_initializer'
-require File.dirname(__FILE__) + './siteadmin_cli/Exceptions/config_file_not_found_exception'
+require './siteadmin_cli/base'
+include SiteAdminCli
 
 class Siteadmin < Thor
-  desc 'init', 'Install a siteadmin from configuration file.'
 
   # Installs a new siteadmin project.
   #
@@ -23,14 +21,14 @@ class Siteadmin < Thor
     end
 
     begin
-      config = SiteadminCli::JsonFileParser.parse('siteadmin-installer.json')
-    rescue SiteadminCli::Exceptions::ConfigFileNotFoundException
+      config = SiteAdminCli::JsonFileParser.parse('siteadmin-installer.json')
+    rescue SiteAdminCli::Exceptions::ConfigFileNotFoundException
       config = {}
     end
 
-    mysql_initializer = SiteadminCli::MySqlInitializer.new
-
-    config2 = mysql_initializer.initialize_config config
+    config['name'] = project_name
+    mysql_initializer = SiteAdminCli::MySqlInitializer.new
+    mysql_initializer.initialize_config config
 
     puts "installing app...#{project_name}"
     #system('bash ./../bin/siteadmin_install.sh')
