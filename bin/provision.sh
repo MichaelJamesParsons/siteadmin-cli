@@ -43,20 +43,20 @@ sudo yum install httpd -y
 sudo service httpd start
 
 # Install mysql
-sudo yum -y install mariadb-server mariadb -y
+sudo yum -y install mariadb-server mariadb
 
 # Start mysql
 sudo systemctl start mariadb
 
 # Generate mysql password
-MYSQL_PASSWORD=$(date +%s|sha256sum|base64|head -c 15)
+#MYSQL_PASSWORD=$(date +%s|sha256sum|base64|head -c 15)
 
 # Configure mysql
-mysql -e "UPDATE mysql.user SET Password = PASSWORD('$MYSQL_PASSWORD') WHERE User = 'root'"
-mysql -e "DROP USER ''@'localhost'"
-mysql -e "DROP USER ''@'$(hostname)'"
-mysql -e "DROP DATABASE IF EXISTS test"
-mysql -e "FLUSH PRIVILEGES"
+sudo mysql -e "UPDATE mysql.user SET Password = PASSWORD('root') WHERE User = 'root'"
+sudo mysql -e "DROP USER ''@'localhost'"
+sudo mysql -e "DROP USER ''@'$(hostname)'"
+sudo mysql -e "DROP DATABASE IF EXISTS test"
+sudo mysql -e "FLUSH PRIVILEGES"
 
-# Start mysql when VM boots
+# Start mysql when VM bootssudo mysql -e "FLUSH PRIVILEGES"
 sudo systemctl enable mariadb.service

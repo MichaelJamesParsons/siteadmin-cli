@@ -5,7 +5,7 @@ module SiteAdminCli
     class << self
 
       def parse(file_name)
-        unless File.exist? file_name
+        unless File.exist? './' + file_name
           raise ConfigFileNotFoundException, 'siteadmin-installer.json does not exist.'
         end
 
