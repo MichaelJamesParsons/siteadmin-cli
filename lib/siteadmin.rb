@@ -3,6 +3,12 @@ require 'thor'
 require './siteadmin_cli/base'
 include SiteAdminCli
 
+# @todo - Implement:
+#
+# - clear IOC
+# - update doctrine
+# - rollback composer
+#
 class Siteadmin < Thor
 
   # Installs a new siteadmin project.
