@@ -2,8 +2,10 @@
 
 A command-line interface for Siteadmin 3.
 
-## Debugging Vagrant?
+## Dependencies
+ MySQL 5.7.6
 
+## Debugging Vagrant?
 
 ### Filesystem "vboxsf" is not available
 > Vagrant was unable to mount VirtualBox shared folders. This is usually because the filesystem "vboxsf" is not available. This filesystem is made available via the VirtualBox Guest Additions  and kernel module. Please verify that these guest additions are properly installed in the guest. This is not a bug in Vagrant and is usually caused by a faulty Vagrant box. For context, the command attempted was:

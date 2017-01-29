@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+
 while getopts u:p:n: option
 do
     case "${option}"
@@ -9,7 +10,7 @@ do
     esac
 done
 
-if [$PASS]
+if [ "$PASS" ]
 then
     mysql -u "$USER" --password="$PASS" -e "CREATE DATABASE IF NOT EXISTS $NAME;"
 else

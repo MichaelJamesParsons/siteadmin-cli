@@ -50,29 +50,22 @@ module SiteAdminCli
         pass = 'root'
       end
 
-      puts 'start'
-      conn_str = "bash ./../bin/mysql_create_database.sh -u \"#{user}\" -p \"#{pass}\" -n \"#{config['mysql']['app']['name']}\""
-      puts conn_str
-      system(conn_str)
-      puts 'stop'
+      create_database(user, pass, config['mysql']['app']['name'])
+      create_user(user, pass, config['mysql']['app']['user'], config['mysql']['app']['pass'])
+      assign_user_to_database(user, pass, config['mysql']['app']['user'], config['mysql']['app']['name'], config['mysql']['app']['host'])
     end
 
-    def create_database(name)
-
+    def create_database(user, pass, db_name)
+      system("bash ./../bin/mysql_create_database.sh -u \"#{user}\" -p \"#{pass}\" -n \"#{db_name}\"")
     end
 
-    def create_user
-
+    def create_user(root_user, root_pass, new_user, new_pass)
+      system("bash ./../bin/mysql_create_user.sh -u \"#{root_user}\" -p \"#{root_pass}\" -n \"#{new_user}\" -i \"#{new_pass}\"")
     end
 
-    def assign_user_to_database(db_name, user)
-
+    def assign_user_to_database(root_user, root_pass, user, db_name, host)
+      system("bash ./../bin/mysql_set_user_privileges.sh -u \"#{root_user}\" -p \"#{root_pass}\" -n \"#{user}\" -d \"#{db_name}\" -h \"#{host}\"")
     end
-
-    def attempt_to_connect(config)
-
-    end
-
 
   end
 end
