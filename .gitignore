@@ -1,6 +1,6 @@
 .idea/
 .vagrant/
-application/
+lib/php/application/
 Gemfile.lock
 .gitignore
 sa3_config_writer.php

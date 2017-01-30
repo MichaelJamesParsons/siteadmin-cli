@@ -8,29 +8,29 @@ module SiteAdminCli
     def initialize_config(config)
 
       unless config.key? 'mysql'
-        config['mysql'] = {}
+        config['mysql'] = { app: {} }
       end
 
       # Set database host
-      unless config['mysql'].key? 'host'
-        config['mysql']['host'] = 'localhost'
+      unless config['mysql']['app'].key? 'host'
+        config['mysql']['app']['host'] = 'localhost'
       end
 
       # Set database name
-      unless config['mysql'].key? 'name'
-        config['mysql']['name'] = config['name']
+      unless config['mysql']['app'].key? 'name'
+        config['mysql']['app']['name'] = config['name']
       end
 
       # Set database user
-      unless config['mysql'].key? 'user'
-        config['mysql']['user'] = config['name']
+      unless config['mysql']['app'].key? 'user'
+        config['mysql']['app']['user'] = config['name']
       end
 
       # Set database password
       unless config['mysql'].key? 'pass'
         hash = Digest::MD5.new
         hash << Time.now.to_s
-        config['mysql']['pass'] = hash.to_s
+        config['mysql']['app']['pass'] = hash.to_s
       end
 
       config

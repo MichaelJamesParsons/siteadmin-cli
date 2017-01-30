@@ -34,6 +34,11 @@ class Siteadmin < Thor
 
     puts 'installing mysql user'
     config['name'] = project_name
+
+    unless config['domain']
+      config['domain'] = project_name + '.app'
+    end
+
     mysql_initializer = SiteAdminCli::MySqlService.new
     mysql_initializer.initialize_config config
     mysql_initializer.initialize_app_db config
@@ -42,10 +47,10 @@ class Siteadmin < Thor
 
     json_parser = JSON
     file = File.open('./siteadmin-installer.json', 'w')
-    file.write(json_parser.generate(config))
+    file.write(json_parser.pretty_generate(config))
 
     puts "installing app...#{project_name}"
-    #system('bash ./../bin/siteadmin_install.sh')
+    system('bash ./../bin/siteadmin_install.sh')
     puts 'Installation complete'
   end
 
