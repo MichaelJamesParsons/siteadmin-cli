@@ -7,8 +7,16 @@ module SiteAdminCli
     # @param [{}] config
     def initialize_config(config)
 
+      if config.nil?
+        config = {}
+      end
+
       unless config.key? 'mysql'
         config['mysql'] = { app: {} }
+      end
+
+      unless config['mysql'].key? 'app'
+        config['mysql']['app'] = {}
       end
 
       # Set database host
@@ -38,6 +46,10 @@ module SiteAdminCli
 
     def initialize_app_db(config)
 
+      unless config['mysql'].key? 'root'
+        config['mysql']['root'] = {}
+      end
+
       if config['mysql']['root']['user']
         user = config['mysql']['root']['user']
       else
@@ -56,15 +68,15 @@ module SiteAdminCli
     end
 
     def create_database(user, pass, db_name)
-      system("bash ./../bin/mysql_create_database.sh -u \"#{user}\" -p \"#{pass}\" -n \"#{db_name}\"")
+      system("bash #{File.dirname(__FILE__)}/../../bin/mysql_create_database.sh -u \"#{user}\" -p \"#{pass}\" -n \"#{db_name}\"")
     end
 
     def create_user(root_user, root_pass, new_user, new_pass)
-      system("bash ./../bin/mysql_create_user.sh -u \"#{root_user}\" -p \"#{root_pass}\" -n \"#{new_user}\" -i \"#{new_pass}\"")
+      system("bash #{File.dirname(__FILE__)}/../../bin/mysql_create_user.sh -u \"#{root_user}\" -p \"#{root_pass}\" -n \"#{new_user}\" -i \"#{new_pass}\"")
     end
 
     def assign_user_to_database(root_user, root_pass, user, db_name, host)
-      system("bash ./../bin/mysql_set_user_privileges.sh -u \"#{root_user}\" -p \"#{root_pass}\" -n \"#{user}\" -d \"#{db_name}\" -h \"#{host}\"")
+      system("bash #{File.dirname(__FILE__)}/../../bin/mysql_set_user_privileges.sh -u \"#{root_user}\" -p \"#{root_pass}\" -n \"#{user}\" -d \"#{db_name}\" -h \"#{host}\"")
     end
 
   end

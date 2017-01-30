@@ -1,11 +1,20 @@
 #!/usr/bin/env bash
 
+while getopts d: option
+do
+    case "${option}"
+    in
+        d) APP_DIR_PATH=${OPTARG};;
+    esac
+done
+
+
 echo "Building SA3 directory structure"
 
 # Build siteadmin directory structure
-mkdir -p /vagrant/application
+mkdir -p "${APP_DIR_PATH}"
 
-cd /vagrant/application
+cd "${APP_DIR_PATH}"
 declare -a sa_directories=(
     "html"
     "uploads"
@@ -132,9 +141,9 @@ cat > uploads/.gitignore << EOF
 *!.gitignore
 EOF
 
-cd /vagrant/application/siteadmin
+cd "${APP_DIR_PATH}/siteadmin"
 
-echo "Installing composer dependencies"
+echo "Installing composer dependencies in: ${APP_DIR_PATH}/siteadmin"
 /usr/local/bin/composer install
 
 echo "Updating database"
