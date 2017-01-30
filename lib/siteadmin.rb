@@ -56,10 +56,11 @@ class Siteadmin < Thor
     json_parser = JSON
     file = File.open("#{app_dir}/siteadmin-installer.json", 'w')
     file.write(json_parser.pretty_generate(config))
+    file.close
     puts 'config complete'
 
     puts 'executing php scripts...'
-    #system('php ./php/sa3_config_writer.php')
+    system("php #{executing_dir}/php/sa3_config_writer.php -d #{app_dir}")
     puts 'done'
   end
 

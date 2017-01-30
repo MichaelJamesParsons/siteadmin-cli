@@ -130,7 +130,7 @@ cat > siteadmin/generated_code/.gitignore << EOF
 *!.gitignore
 EOF
 cat > siteadmin/tests/.gitignore << EOF
-*!.gitignore
+*!.gitignorez
 EOF
 
 cat > siteadmin/migrations/.gitignore << EOF
@@ -147,4 +147,4 @@ echo "Installing composer dependencies in: ${APP_DIR_PATH}/siteadmin"
 /usr/local/bin/composer install
 
 echo "Updating database"
-#php vagrant/application/siteadmin/includes/app.php -e=production -c=doctrine orm:schema:update
+#php "${APP_DIR_PATH}/siteadmin/includes/app.php" -e=production -c=doctrine orm:schema:update
