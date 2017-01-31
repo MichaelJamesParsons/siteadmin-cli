@@ -7,11 +7,8 @@ sudo yum -y install wget
 sudo yum -y install git
 
 # Install Ruby Version Manager (RVM) [https://rvm.io/rvm/install]
-sudo gpg --keyserver hkp://pgp.mit.edu --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3
+curl -sSL https://rvm.io/mpapis.asc | gpg2 --import -
 sudo \curl -sSL https://get.rvm.io | bash -s stable --ruby
-
-# Install ruby 2.4.0
-rvm install 2.4.0
 sudo gem install bundler
 
 # TODO - Pull siteadmin-cli from Git
