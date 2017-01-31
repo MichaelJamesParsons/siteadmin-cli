@@ -34,6 +34,7 @@ class Siteadmin < Thor
     config = app_builder.build project, config
 
     puts 'Writing siteadmin-installer.json file...'
+    # todo - Move to another file
     json_parser = JSON
     file = File.open("#{app_dir}/siteadmin-installer.json", 'w')
     file.write(json_parser.pretty_generate(config))

@@ -3,7 +3,7 @@ module SiteAdminCli
     class << self
       def build(project, config)
         config['name'] = SiteAdminCli::GitService::parse_project_name_from_url project
-        SiteAdminCli::GitService::clone(project)
+        SiteAdminCli::GitService::clone project
 
         config
       end
