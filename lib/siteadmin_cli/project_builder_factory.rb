@@ -1,13 +1,19 @@
+require 'uri'
+
 module SiteAdminCli
   class ProjectBuilderFactory
-    def make(project)
-      if project =~ URI.regexp
-        return NewProjectBuilder
-      elsif project =~ /^[a-zA-Z_]*$/
-        return RepositoryProjectBuilder
+    class << self
+
+      def make(project)
+        if project =~ URI.regexp
+          return NewProjectBuilder
+        elsif project =~ /^[a-zA-Z_]*$/
+          return RepositoryProjectBuilder
+        end
+
+        raise Exception, 'Invalid project. Expected project name [a-zA-Z_] or url to git repository.'
       end
 
-      raise Exception, 'Invalid project. Expected project name [a-zA-Z_] or url to git repository.'
     end
   end
 end

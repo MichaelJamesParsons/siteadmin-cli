@@ -30,7 +30,7 @@ class Siteadmin < Thor
     mysql_initializer.initialize_config config
     mysql_initializer.initialize_app_db config
 
-    put 'Installing SA3 directory structure...'
+    puts 'Installing SA3 directory structure...'
     config = app_builder.build project, config
 
     puts 'Writing siteadmin-installer.json file...'
