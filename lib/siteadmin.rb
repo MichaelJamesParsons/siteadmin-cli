@@ -20,12 +20,11 @@ class Siteadmin < Thor
   #
   # @param [string] project_name
   # @param [string] domain
-  desc 'init', 'Install a new Site Administrator project.'
+  desc 'init', 'Install a new Site Administrator project. Parameter 1 is either the name of the
+                project or a URL to a git repo.'
   options :p => :string
-  def init(project_name)
-    unless project_name =~ /^[a-zA-Z_]*$/
-      puts "Invalid project name \"#{project_name}\". Project name may only contain alphabetic characters and underscores."
-    end
+  def init(project)
+    app_builder = SiteAdminCli::ProjectBuilderFactory.make project
 
     begin
       config = SiteAdminCli::JsonFileParser.parse('siteadmin-installer.json')
@@ -48,10 +47,15 @@ class Siteadmin < Thor
     mysql_initializer.initialize_app_db config
     puts 'mysql setup complete'
 
+
+    app_builder.build config
+
+    # Move to new project builder
     puts "installing app...#{project_name}"
     system("bash #{executing_dir}/../bin/siteadmin_install.sh -d \"#{app_dir}\"")
     puts 'Installation complete'
 
+    # Move
     puts 'writing config file'
     json_parser = JSON
     file = File.open("#{app_dir}/siteadmin-installer.json", 'w')
@@ -59,6 +63,7 @@ class Siteadmin < Thor
     file.close
     puts 'config complete'
 
+    # All?
     puts 'executing php scripts...'
     system("php #{executing_dir}/php/sa3_config_writer.php -d #{app_dir}")
     puts 'done'
@@ -70,7 +75,7 @@ class Siteadmin < Thor
   # @param [string] domain
   # @param [string] git_repo
   desc 'setup', 'Install an existing Site Administrator project from a Git Repo.'
-  def setup(project_name, domain, git_repo: nil)
+  def setup(git_repo: nil)
 
   end
 end

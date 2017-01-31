@@ -140,11 +140,3 @@ EOF
 cat > uploads/.gitignore << EOF
 *!.gitignore
 EOF
-
-cd "${APP_DIR_PATH}/siteadmin"
-
-echo "Installing composer dependencies in: ${APP_DIR_PATH}/siteadmin"
-/usr/local/bin/composer install
-
-echo "Updating database"
-#php "${APP_DIR_PATH}/siteadmin/includes/app.php" -e=production -c=doctrine orm:schema:update
