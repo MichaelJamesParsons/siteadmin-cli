@@ -1,9 +1,12 @@
 module SiteAdminCli
   class NewProjectBuilder
-    class << self
-      def build(project)
+    def build(project, config)
+      app_dir = "#{Dir.pwd}/#{project}"
+      executing_dir = File.dirname(__FILE__)
 
-      end
+      system("bash #{executing_dir}/../bin/siteadmin_install.sh -d \"#{app_dir}\"")
+
+      config
     end
   end
 end

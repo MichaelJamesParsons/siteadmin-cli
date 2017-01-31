@@ -8,4 +8,4 @@ do
     esac
 done
 
-git clone "${REPO_URL}"
+git clone "${REPO_URL} ./"
