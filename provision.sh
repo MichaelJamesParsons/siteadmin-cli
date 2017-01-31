@@ -48,9 +48,6 @@ sudo yum -y install mariadb-server mariadb
 # Start mysql
 sudo systemctl start mariadb
 
-# Generate mysql password
-#MYSQL_PASSWORD=$(date +%s|sha256sum|base64|head -c 15)
-
 # Configure mysql
 sudo mysql -e "UPDATE mysql.user SET Password = PASSWORD('root') WHERE User = 'root'"
 sudo mysql -e "DROP USER ''@'localhost'"
