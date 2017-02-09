@@ -6,4 +6,9 @@ Vagrant.configure('2') do |config|
   config.vm.provision :shell, path: './provision.sh', keep_color: true
   #config.vm.network 'private_network', type: 'dhcp'
   config.ssh.insert_key = true
+
+  config.vm.provider :virtualbox do |vb|
+    vb.customize ['modifyvm', :id, '--natdnshostresolver1', 'on']
+  end
+
 end
