@@ -1,4 +1,4 @@
-module SiteAdminCli
+module SiteadminCli
   class NewProjectBuilder
     def build(project, config)
 

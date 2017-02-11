@@ -1,6 +1,6 @@
 require 'uri'
 
-module SiteAdminCli
+module SiteadminCli
   class ProjectBuilderFactory
     class << self
 

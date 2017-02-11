@@ -1,7 +1,7 @@
 require 'digest'
 require 'time'
 
-module SiteAdminCli
+module SiteadminCli
   class MySqlService
 
     # @param [{}] config

@@ -1,4 +1,4 @@
-module SiteAdminCli
+module SiteadminCli
   require 'json'
   require_relative 'json_file_parser'
   require_relative 'my_sql_service'
@@ -8,6 +8,7 @@ module SiteAdminCli
   require_relative 'repository_project_builder'
   require_relative 'project_builder_factory'
   require_relative 'Exceptions/config_file_not_found_exception'
+  require_relative 'Commands/ioc'
 
-  include SiteAdminCli::Exceptions
+  include SiteadminCli::Exceptions
 end

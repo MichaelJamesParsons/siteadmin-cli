@@ -1,4 +1,4 @@
-module SiteAdminCli
+module SiteadminCli
   class GitService
     class << self
       def clone(repo, dest = '.')

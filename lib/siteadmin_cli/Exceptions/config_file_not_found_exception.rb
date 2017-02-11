@@ -1,4 +1,4 @@
-module SiteAdminCli
+module SiteadminCli
   module Exceptions
     class ConfigFileNotFoundException < Exception
 

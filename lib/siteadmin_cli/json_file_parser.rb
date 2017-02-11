@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/Exceptions/config_file_not_found_exception'
 
-module SiteAdminCli
+module SiteadminCli
   class JsonFileParser
     class << self
 

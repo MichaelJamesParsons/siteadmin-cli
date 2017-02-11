@@ -1,10 +1,10 @@
-module SiteAdminCli
+module SiteadminCli
   class RepositoryProjectBuilder
     def build(project, config)
-      config['name'] = SiteAdminCli::GitService::parse_project_name_from_url project
+      config['name'] = SiteadminCli::GitService::parse_project_name_from_url project
       config['domain'] = project
 
-      SiteAdminCli::GitService::clone project, config['name']
+      SiteadminCli::GitService::clone project, config['name']
 
       config
     end
