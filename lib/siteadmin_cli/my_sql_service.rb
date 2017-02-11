@@ -26,12 +26,12 @@ module SiteAdminCli
 
       # Set database name
       unless config['mysql']['app'].key? 'name'
-        config['mysql']['app']['name'] = config['name']
+        config['mysql']['app']['name'] = config['name'].gsub(/[-]/, '_')
       end
 
       # Set database user
       unless config['mysql']['app'].key? 'user'
-        config['mysql']['app']['user'] = config['name']
+        config['mysql']['app']['user'] = config['name'].gsub(/[-]/, '_')
       end
 
       # Set database password
