@@ -11,14 +11,10 @@ if($appDir == null) {
     exit();
 }
 
-
 include "$appDir/siteadmin/vendor/autoload.php";
 
 use sa\utilities;
 
-/**
- * @todo Instead of hard-coding, pass the file path into this script.
- */
 $filePath = "$appDir/siteadmin-installer.json";
 $defaultConfigPath = 'defaultconfig.php';
 

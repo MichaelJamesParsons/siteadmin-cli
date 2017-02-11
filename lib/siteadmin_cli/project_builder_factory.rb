@@ -6,9 +6,9 @@ module SiteAdminCli
 
       def make(project)
         if project =~ URI.regexp
-          return NewProjectBuilder
+          return RepositoryProjectBuilder.new
         elsif project =~ /^[a-zA-Z_]*$/
-          return RepositoryProjectBuilder
+          return NewProjectBuilder.new
         end
 
         raise Exception, 'Invalid project. Expected project name [a-zA-Z_] or url to git repository.'

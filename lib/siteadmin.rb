@@ -22,16 +22,19 @@ class Siteadmin < Thor
       config = {}
     end
 
+    puts 'Installing SA3 directory structure...'
+    config = app_builder.build project, config
+
     app_dir = "#{Dir.pwd}/#{config['name']}"
     executing_dir = File.dirname(__FILE__)
 
+    puts 'Installing composer packages...'
+    system("bash #{executing_dir}/../bin/composer_update.sh -d \"#{app_dir}/siteadmin\"")
+
     puts 'Installing mysql...'
     mysql_initializer = SiteAdminCli::MySqlService.new
-    mysql_initializer.initialize_config config
+    config = mysql_initializer.initialize_config config
     mysql_initializer.initialize_app_db config
-
-    puts 'Installing SA3 directory structure...'
-    config = app_builder.build project, config
 
     puts 'Writing siteadmin-installer.json file...'
     # todo - Move to another file

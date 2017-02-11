@@ -9,4 +9,9 @@ do
     esac
 done
 
+echo "git clone ${REPO_URL} ${DEST_DIR}"
+echo "git clone ${REPO_URL} ${DEST_DIR}"
+echo "git clone ${REPO_URL} ${DEST_DIR}"
+echo "git clone ${REPO_URL} ${DEST_DIR}"
+
 git clone "${REPO_URL} ${DEST_DIR}"

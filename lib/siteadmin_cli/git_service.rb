@@ -2,17 +2,17 @@ module SiteAdminCli
   class GitService
     class << self
       def clone(repo, dest = '.')
-        system("#{File.dirname(__FILE__)}/../../bin/git_push.sh -r #{repo} -d #{dest}")
+        system("#{File.dirname(__FILE__)}/../../bin/git_clone.sh -r #{repo} -d ' '")
       end
 
       def parse_project_name_from_url(url)
-        last_slash = url.rindex '/\//'
+        last_slash = url.to_s.rindex(/\//)
 
         if url.include? '@'
-          return url[last_slash + 1]
+          return url[last_slash + 1, url.length]
         end
 
-        url[last_slash, -4]
+        url[last_slash+1..-5]
       end
     end
   end
