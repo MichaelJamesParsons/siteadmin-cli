@@ -2,7 +2,7 @@ module SiteAdminCli
   class GitService
     class << self
       def clone(repo, dest = '.')
-        system("#{File.dirname(__FILE__)}/../../bin/git_clone.sh -r #{repo} -d ' '")
+        system("bash #{File.dirname(__FILE__)}/../../bin/git_clone.sh -r #{repo} -d #{dest}")
       end
 
       def parse_project_name_from_url(url)
