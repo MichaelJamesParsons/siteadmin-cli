@@ -28,6 +28,7 @@ class Siteadmin < Thor
     app_dir = "#{Dir.pwd}/#{config['name']}"
     executing_dir = File.dirname(__FILE__)
 
+    #todo - handle missing composer.json
     puts 'Installing composer packages...'
     system("bash #{executing_dir}/../bin/composer_update.sh -d \"#{app_dir}/siteadmin\"")
 
