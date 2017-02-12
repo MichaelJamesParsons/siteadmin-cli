@@ -1,4 +1,6 @@
 #!/usr/bin/env ruby
+lib = File.expand_path('../../lib', __FILE__)
+$:.unshift(lib)
 
 require 'thor'
 require_relative 'siteadmin_cli/base'
