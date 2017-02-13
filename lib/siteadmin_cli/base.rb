@@ -6,5 +6,5 @@ module SiteadminCli
   require 'siteadmin_cli/json_file_parser'
   require 'siteadmin_cli/my_sql_service'
   require 'siteadmin_cli/git_service'
-  require 'siteadmin_cli/commands/ioc'
+  require 'siteadmin_cli/commands/commands'
 end

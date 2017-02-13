@@ -14,6 +14,11 @@ module SiteadminCli
         puts 'Stopped listening to composer file'
       end
 
+      desc 'status', 'Determine if listener is running'
+      def status
+        puts 'The listener <is|is not> listening'
+      end
+
     end
   end
 end

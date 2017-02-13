@@ -56,6 +56,9 @@ module Siteadmin
 
     desc 'ioc COMMAND [<args>...]', 'Manage application ioc files. For these commands to work, you must be inside of a valid Siteadmin project.'
     subcommand 'ioc', Commands::Ioc
+
+    desc 'composer', 'Manage composer.json file'
+    subcommand 'composer', Commands::Composer
   end
 
 end
