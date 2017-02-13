@@ -1,5 +1,5 @@
 require 'thor'
-require 'siteadmin_cli/Exceptions/file_not_found_exception'
+require 'siteadmin_cli/exceptions/file_not_found_exception'
 
 module SiteadminCli
   module Commands
@@ -33,7 +33,10 @@ module SiteadminCli
           return dir
         elsif dir == '/'
           raise SiteadminCli::Exceptions::FileNotFoundException,
-                'You must be inside of a Siteadmin project directory to perform this action.'
+                'You must be inside of a Siteadmin project directory to perform this action. ' +
+                'Does a siteadmin-installer.json file exist in your project? ' +
+                "Execute the following command while in the root of your project to generate one for you:\n\n\n" +
+                "\tsiteadmin init\n\n\n"
         end
 
         get_project_directory File.absolute_path("#{dir}/../")

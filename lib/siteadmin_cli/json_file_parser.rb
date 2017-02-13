@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/Exceptions/config_file_not_found_exception'
+require 'siteadmin_cli/exceptions/config_file_not_found_exception'
 
 module SiteadminCli
   class JsonFileParser
@@ -6,7 +6,7 @@ module SiteadminCli
 
       def parse(file_name)
         unless File.exist? './' + file_name
-          raise ConfigFileNotFoundException, 'siteadmin-installer.json does not exist.'
+          raise SiteadminCli::Exceptions::ConfigFileNotFoundException, 'siteadmin-installer.json does not exist.'
         end
 
         file = File.read file_name

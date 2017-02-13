@@ -18,7 +18,7 @@ module Siteadmin
                 project or a URL to a git repo.'
     options :p => :string
     def install(project)
-      app_builder = SiteadminCli::ProjectBuilderFactory.make project
+      app_builder = SiteadminCli::Installer::ProjectBuilderFactory.make project
 
       begin
         config = SiteadminCli::JsonFileParser.parse('siteadmin-installer.json')

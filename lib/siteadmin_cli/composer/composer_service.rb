@@ -1,4 +1,4 @@
-module SiteadminCli
+module SiteadminCli::Installer
   class ComposerService
     class << self
 

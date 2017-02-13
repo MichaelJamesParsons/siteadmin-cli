@@ -1,4 +1,4 @@
-module SiteadminCli
+module SiteadminCli::Installer
   class RepositoryProjectBuilder
     def build(project, config)
       config['name'] = SiteadminCli::GitService::parse_project_name_from_url project

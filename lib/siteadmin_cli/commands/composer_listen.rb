@@ -2,7 +2,7 @@ require 'thor'
 
 module SiteadminCli
   module Commands
-    class ComposerListener < Thor
+    class ComposerListen < Thor
 
       desc 'start', 'Enables listener to track changes to composer.json.'
       def start

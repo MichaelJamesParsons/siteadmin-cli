@@ -1,6 +1,6 @@
 require 'thor'
-require 'siteadmin_cli/Commands/composer_listener'
-require 'siteadmin_cli/Commands/composer_history'
+require 'siteadmin_cli/commands/composer_listener'
+require 'siteadmin_cli/commands/composer_history'
 
 module SiteadminCli
   module Commands
@@ -17,7 +17,7 @@ module SiteadminCli
         puts 'Reloading composer autoload'
       end
 
-      subcommand('listen', ComposerListener)
+      subcommand('listen', ComposerListen)
       subcommand('history', ComposerHistory)
 
     end
