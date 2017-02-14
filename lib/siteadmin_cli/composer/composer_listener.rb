@@ -3,11 +3,12 @@ require 'json'
 require 'siteadmin_cli/utils/project_traversal_utils'
 require 'siteadmin_cli/json_file_parser'
 require 'digest/md5'
+require 'listen'
 
 module SiteadminCli::Composer
   class ComposerListener
     # todo - handle FileNotFound exception
-    def start(dir)
+    def subscribe(dir)
       cache = get_listener_cache
       project_dir = SiteadminCli::Utils::ProjectTraversalUtils.get_project_directory dir
       hasher = Digest::MD5.new
@@ -22,7 +23,7 @@ module SiteadminCli::Composer
     end
 
     # todo - handle FileNotFound exception
-    def stop(dir)
+    def unsubscribe(dir)
       cache = get_listener_cache
       project_dir = SiteadminCli::Utils::ProjectTraversalUtils.get_project_directory dir
       hasher = Digest::MD5.new
@@ -36,13 +37,77 @@ module SiteadminCli::Composer
       end
     end
 
+    def start
+      cache = get_listener_cache
+      vals = cache.values
+      puts 'listener initialized'
+      listener = Listen.to("#{vals[0]}/siteadmin", only: /\.json$/) do |modified, added, removed|
+        puts 'executing'
+        puts "modified absolute path: #{modified}"
+        puts "added absolute path: #{added}"
+        puts "removed absolute path: #{removed}"
+
+        add_cache_items added
+        add_cache_items modified
+
+      end
+      listener.start
+      sleep
+    end
+
     private
+    def add_cache_items(proj_paths)
+      proj_paths.each do |proj_path|
+        cache = get_proj_cache proj_path
+
+        key = "#{Time.now.to_i}"
+        current = cache['current']
+
+        # Set new current item
+        cache['current'] = key
+        cache['history'][key] = {
+            prev: current,
+            next: nil,
+            content: SiteadminCli::JsonFileParser.parse("#{proj_path}")
+        }
+
+        unless current.nil?
+          cache[current]['next'] = key
+        end
+
+        save_proj_cache proj_path, JSON.pretty_generate(cache)
+      end
+    end
+
     def get_cache_dir
       '/vagrant/.cache/composer'
     end
 
-    def get_proj_cache_dir(dir)
+    def get_proj_cache(proj_dir)
+      hasher = Digest::MD5.new
+      proj_cache_ref = hasher.hexdigest proj_dir
+      cache_path = "#{get_cache_dir}/#{proj_cache_ref}.json"
 
+      unless File.exists? cache_path
+        init_proj_cache cache_path
+      end
+
+      SiteadminCli::JsonFileParser.parse cache_path
+    end
+
+    def save_proj_cache(proj_dir, cache)
+      hasher = Digest::MD5.new
+      proj_cache_ref = hasher.hexdigest proj_dir
+      cache_path = "#{get_cache_dir}/#{proj_cache_ref}.json"
+      file = File.open cache_path, 'w'
+      file.write cache
+      file.close
+    end
+
+    def init_proj_cache(cache_path)
+      cache = File.open cache_path, 'w'
+      cache.write JSON.pretty_generate({ current: nil, history: {}})
+      cache.close
     end
 
     def get_listener_cache

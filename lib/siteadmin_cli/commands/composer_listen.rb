@@ -9,14 +9,15 @@ module SiteadminCli
       def start
         puts 'Listening to composer file'
         listener = SiteadminCli::Composer::ComposerListener.new
-        listener.start Dir.pwd
+        listener.subscribe Dir.pwd
+        listener.start
       end
 
       desc 'stop', 'Disables composer.json change listener.'
       def stop
         puts 'Stopped listening to composer file'
         listener = SiteadminCli::Composer::ComposerListener.new
-        listener.stop Dir.pwd
+        listener.unsubscribe Dir.pwd
       end
 
       desc 'status', 'Determine if listener is running'
