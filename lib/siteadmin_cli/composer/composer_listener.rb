@@ -39,14 +39,8 @@ module SiteadminCli::Composer
 
     def start
       cache = get_listener_cache
-      vals = cache.values
       puts 'listener initialized'
-      listener = Listen.to("#{vals[0]}/siteadmin", only: /\.json$/) do |modified, added, removed|
-        puts 'executing'
-        puts "modified absolute path: #{modified}"
-        puts "added absolute path: #{added}"
-        puts "removed absolute path: #{removed}"
-
+      listener = Listen.to(*cache.values, only: /siteadmin\/composer\.json$/) do |modified, added, removed|
         add_cache_items added
         add_cache_items modified
 
@@ -56,6 +50,8 @@ module SiteadminCli::Composer
     end
 
     private
+
+    # todo some of this logic will be used by other commands. Refactor?
     def add_cache_items(proj_paths)
       proj_paths.each do |proj_path|
         cache = get_proj_cache proj_path
@@ -72,7 +68,7 @@ module SiteadminCli::Composer
         }
 
         unless current.nil?
-          cache[current]['next'] = key
+          cache['history'][current]['next'] = key
         end
 
         save_proj_cache proj_path, JSON.pretty_generate(cache)
