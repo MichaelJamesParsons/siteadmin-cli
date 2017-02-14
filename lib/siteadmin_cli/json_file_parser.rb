@@ -4,12 +4,12 @@ module SiteadminCli
   class JsonFileParser
     class << self
 
-      def parse(file_name)
-        unless File.exist? './' + file_name
+      def parse(file_path)
+        unless File.exist? file_path
           raise SiteadminCli::Exceptions::ConfigFileNotFoundException, 'siteadmin-installer.json does not exist.'
         end
 
-        file = File.read file_name
+        file = File.read file_path
         JSON.parse file
       end
 

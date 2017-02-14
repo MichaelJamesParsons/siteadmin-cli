@@ -1,4 +1,5 @@
 require 'thor'
+require 'siteadmin_cli/composer/composer'
 
 module SiteadminCli
   module Commands
@@ -7,11 +8,15 @@ module SiteadminCli
       desc 'start', 'Enables listener to track changes to composer.json.'
       def start
         puts 'Listening to composer file'
+        listener = SiteadminCli::Composer::ComposerListener.new
+        listener.start Dir.pwd
       end
 
       desc 'stop', 'Disables composer.json change listener.'
       def stop
         puts 'Stopped listening to composer file'
+        listener = SiteadminCli::Composer::ComposerListener.new
+        listener.stop Dir.pwd
       end
 
       desc 'status', 'Determine if listener is running'
