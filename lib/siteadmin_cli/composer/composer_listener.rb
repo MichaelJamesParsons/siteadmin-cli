@@ -6,7 +6,7 @@ require 'digest/md5'
 
 module SiteadminCli::Composer
   class ComposerListener
-
+    # todo - handle FileNotFound exception
     def start(dir)
       cache = get_listener_cache
       project_dir = SiteadminCli::Utils::ProjectTraversalUtils.get_project_directory dir
@@ -21,6 +21,7 @@ module SiteadminCli::Composer
       end
     end
 
+    # todo - handle FileNotFound exception
     def stop(dir)
       cache = get_listener_cache
       project_dir = SiteadminCli::Utils::ProjectTraversalUtils.get_project_directory dir
