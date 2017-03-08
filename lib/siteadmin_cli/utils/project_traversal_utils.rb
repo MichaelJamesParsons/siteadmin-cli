@@ -15,7 +15,7 @@ module SiteadminCli::Utils
         sibling_dirs = Dir["#{dir}/*"].map { |a| File.basename(a) }
 
         if sibling_dirs.include? 'siteadmin-installer.json'
-          return dir
+          return File.absolute_path dir
         elsif dir == '/'
           raise SiteadminCli::Exceptions::FileNotFoundException,
                 'You must be inside of a Siteadmin project directory to perform this action. ' +

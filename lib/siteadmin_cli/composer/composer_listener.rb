@@ -11,11 +11,16 @@ module SiteadminCli::Composer
     def subscribe(dir)
       cache = get_listener_cache
       project_dir = SiteadminCli::Utils::ProjectTraversalUtils.get_project_directory dir
+      composer_path = "#{project_dir}/siteadmin/composer.json"
       hasher = Digest::MD5.new
-      proj_cache_ref = hasher.hexdigest project_dir
+      proj_dir_ref = hasher.hexdigest project_dir
+      proj_cache_ref = hasher.hexdigest composer_path
 
       unless cache.include? proj_cache_ref
-        cache[proj_cache_ref] = project_dir
+        cache[proj_dir_ref] = {
+          cache: "#{proj_cache_ref}.json",
+          path: composer_path
+        }
         cache_file = File.open "#{get_cache_dir}/listeners.json", 'w'
         cache_file.write(JSON.pretty_generate cache)
         cache_file.close
@@ -37,10 +42,36 @@ module SiteadminCli::Composer
       end
     end
 
+    def rewind(dir)
+      project_dir = SiteadminCli::Utils::ProjectTraversalUtils.get_project_directory dir
+      cache = get_proj_cache project_dir
+
+      if cache['current'].nil?
+        if cache['history'].length > 0
+          raise Exception, 'Cannot revert composer version. History exists but no current configuration is set. ' +
+                            'Execute "siteadmin composer history list" to view all available histories. Then ' +
+                            'execute "siteadmin composer history use {history item ID}" to set which configuration ' +
+                            'you would like to revert to.'
+        end
+
+        raise Exception, 'Cannot revert composer version. Composer.json file has no recorded history.'
+      end
+
+      current = cache['current']
+
+      if cache['history'][current]['prev'].nil?
+        raise Exception, 'Cannot revert composer version. No previous composer.json history exists.'
+      end
+
+      new_current = cache['history'][current]['prev']
+      cache['current'] = new_current
+      cache['history'][new_current]['prev'] = current
+      cache['history'][current]['next'] = new_current
+    end
+
     def start
-      cache = get_listener_cache
       puts 'listener initialized'
-      listener = Listen.to(*cache.values, only: /siteadmin\/composer\.json$/) do |modified, added, removed|
+      listener = Listen.to(*list_listener_path_dirs, only: /composer\.json$/) do |modified, added, removed|
         add_cache_items added
         add_cache_items modified
 
@@ -50,11 +81,20 @@ module SiteadminCli::Composer
     end
 
     private
+    def list_listener_path_dirs
+      cache = get_listener_cache.values
+      paths = []
+
+      cache.each { |item|
+        paths.push File.dirname(item['path'])
+      }
+      paths
+    end
 
     # todo some of this logic will be used by other commands. Refactor?
-    def add_cache_items(proj_paths)
-      proj_paths.each do |proj_path|
-        cache = get_proj_cache proj_path
+    def add_cache_items(cache_path)
+      cache_path.each do |cache_item|
+        cache = cache_path
 
         key = "#{Time.now.to_i}"
         current = cache['current']
@@ -64,14 +104,14 @@ module SiteadminCli::Composer
         cache['history'][key] = {
             prev: current,
             next: nil,
-            content: SiteadminCli::JsonFileParser.parse("#{proj_path}")
+            content: SiteadminCli::JsonFileParser.parse("#{cache_item}")
         }
 
         unless current.nil?
           cache['history'][current]['next'] = key
         end
 
-        save_proj_cache proj_path, JSON.pretty_generate(cache)
+        save_proj_cache cache_item, JSON.pretty_generate(cache)
       end
     end
 
@@ -80,6 +120,7 @@ module SiteadminCli::Composer
     end
 
     def get_proj_cache(proj_dir)
+      cache = get_listener_cache
       hasher = Digest::MD5.new
       proj_cache_ref = hasher.hexdigest proj_dir
       cache_path = "#{get_cache_dir}/#{proj_cache_ref}.json"

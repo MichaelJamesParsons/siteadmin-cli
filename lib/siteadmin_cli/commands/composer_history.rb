@@ -1,4 +1,5 @@
 require 'thor'
+require 'siteadmin_cli/composer/composer'
 
 module SiteadminCli
   module Commands
@@ -12,6 +13,8 @@ module SiteadminCli
       desc 'rewind', 'Restores the next recent composer file.'
       def rewind
         puts 'Restoring composer to previous version'
+        listener = SiteadminCli::Composer::ComposerListener.new
+        listener.rewind Dir.pwd
       end
 
       desc 'forward', 'Restores previous version composer file.'
