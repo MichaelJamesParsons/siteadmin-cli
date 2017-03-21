@@ -1,5 +1,12 @@
 #!/usr/bin/env bash
 
+BLUE='\033[0;34m'
+FLUSH_COLOR='\033[0m'
+
+function echoWithColor() {
+    echo "${1}${2}${FLUSH_COLOR}"
+}
+
 #
 # Installs libraries required to provision the OS
 #
@@ -32,8 +39,7 @@ function install_ruby() {
     \curl -sSL https://get.rvm.io | bash -s stable --ruby
     gem install bundler
 
-    # TODO - Pull siteadmin-cli from Git
-    # TODO - Execute bundler in siteadmin-cli install directory
+    # TODO - Move to SA CLI installer setup
     bundle install
 }
 
@@ -113,26 +119,36 @@ function configure_root_db_user() {
 install_dependencies
 
 # Install git if not found
+echoWithColor BLUE, "\t- Verifying Git installation";
 if ! rpm -qa | grep -qw git; then
+    echoWithColor BLUE, "\t\tInstalling Git"
     install_git
 fi
 
-# Install composer if not found
-if ! whereis composer | grep -qw /usr/bin/composer; then
-    install_composer
+# Install php if not found
+echoWithColor BLUE, "\t- Verifying PHP installation";
+if ! whereis php | grep -qw /usr/bin/php; then
+    echoWithColor BLUE, "\t\tInstalling PHP 7.*"
+    install_php
 fi
 
 # Install composer if not found
+echoWithColor BLUE, "\t- Verifying Composer installation";
+if ! whereis composer | grep -qw /usr/bin/composer; then
+    echoWithColor BLUE, "\t\tInstalling Composer"
+    install_composer
+fi
+
+# Install httpd if not found
+echoWithColor BLUE, "\t- Verifying Apache (HTTPD) installation";
 if ! whereis httpd | grep -qw /usr/sbin/httpd; then
+    echoWithColor BLUE, "\t\tInstalling Apache2"
     install_apache2
 fi
 
 # Install maria DB if not found
+echoWithColor BLUE, "\t- Verifying Maria DB installation";
 if ! rpm -qa | grep -qw mariadb-server; then
+    echoWithColor BLUE, "\t\tInstalling MariaDB"
     install_maria_db
-fi
-
-# Install php if not found
-if ! whereis composer | grep -qw /usr/bin/php; then
-    install_php
 fi
