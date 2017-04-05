@@ -68,15 +68,15 @@ module SiteadminCli
     end
 
     def create_database(user, pass, db_name)
-      system("bash #{File.dirname(__FILE__)}/../../bin/mysql_create_database.sh -u \"#{user}\" -p \"#{pass}\" -n \"#{db_name}\"")
+      system("bash #{File.dirname(__FILE__)}/../../scripts/mysql_create_database.sh -u \"#{user}\" -p \"#{pass}\" -n \"#{db_name}\"")
     end
 
     def create_user(root_user, root_pass, new_user, new_pass)
-      system("bash #{File.dirname(__FILE__)}/../../bin/mysql_create_user.sh -u \"#{root_user}\" -p \"#{root_pass}\" -n \"#{new_user}\" -i \"#{new_pass}\"")
+      system("bash #{File.dirname(__FILE__)}/../../scripts/mysql_create_user.sh -u \"#{root_user}\" -p \"#{root_pass}\" -n \"#{new_user}\" -i \"#{new_pass}\"")
     end
 
     def assign_user_to_database(root_user, root_pass, user, db_name, host)
-      system("bash #{File.dirname(__FILE__)}/../../bin/mysql_set_user_privileges.sh -u \"#{root_user}\" -p \"#{root_pass}\" -n \"#{user}\" -d \"#{db_name}\" -h \"#{host}\"")
+      system("bash #{File.dirname(__FILE__)}/../../scripts/mysql_set_user_privileges.sh -u \"#{root_user}\" -p \"#{root_pass}\" -n \"#{user}\" -d \"#{db_name}\" -h \"#{host}\"")
     end
 
   end

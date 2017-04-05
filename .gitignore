@@ -1,6 +1,11 @@
-.idea/
-.vagrant/
-.cache
-Gemfile.lock
-.gitignore
-siteadmin-installer.json
+*.DS_Store
+*.sublime-project
+*.sublime-workspace
+*.php~
+.idea
+/siteadmin/config/devconfig.php
+/siteadmin/composer.lock
+/siteadmin/composer.phar
+/docs
+/html/docs
+/*.iml

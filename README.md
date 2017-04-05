@@ -18,5 +18,14 @@ A command-line interface for Siteadmin 3.
 
 ##### Solution
 
-    $ vagrant halt
-    $ vagrant plugin install vagrant-vbguest
+    $ vagrant ssh   //SSH into vagrant box
+    $ yum upgrade   //upgrade OS packages
+
+    $ exit          //close ssh connection
+
+    $ vagrant halt  //stop vagrant box
+    $ vagrant plugin install vagrant-vbguest //install vbguest plugin
+    $ vagrant up
+    
+##### Alternate Solution
+If the solution above  does not work, install the latest version of VirtualBox and Vagrant.

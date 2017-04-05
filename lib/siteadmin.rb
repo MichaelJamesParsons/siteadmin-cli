@@ -34,7 +34,7 @@ module Siteadmin
 
       #todo - handle missing composer.json
       puts 'Installing composer packages...'
-      system("bash #{executing_dir}/../bin/composer_update.sh -d \"#{app_dir}/siteadmin\"")
+      system("bash #{executing_dir}/../scripts/composer_update.sh -d \"#{app_dir}/siteadmin\"")
 
       puts 'Installing mysql...'
       mysql_initializer = SiteadminCli::MySqlService.new

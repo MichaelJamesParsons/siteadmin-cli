@@ -1,25 +1,45 @@
 #!/usr/bin/env bash
 
-BLUE='\033[0;34m'
-FLUSH_COLOR='\033[0m'
+function blue() {
+    printf '\e[34m'
+}
 
-function echoWithColor() {
-    echo "${1}${2}${FLUSH_COLOR}"
+function green() {
+    printf '\e[32m'
+}
+
+function gray() {
+    printf '\033[1;30m'
+}
+
+function clear() {
+    printf '\e[0m'
+}
+
+function default() {
+    printf "$1 $(clear)\n"
+}
+
+function info() {
+    printf "$(blue) $1 $(clear)\n"
+}
+
+function success() {
+    printf "$(green) $1 $(clear)\n"
 }
 
 #
 # Installs libraries required to provision the OS
 #
 function install_dependencies() {
-    sudo yum -y install wget
+    sudo yum -y -q -e 0 install wget
 }
 
-#
+#s
 # Upgrades OS and updates installed packages
 #
 function update_packages() {
-    sudo yum -y dist-upgrade
-    sudo yum -y update
+    sudo yum -y -q -e 0 update
 }
 
 #
@@ -27,20 +47,7 @@ function update_packages() {
 #
 function install_git() {
     # Install Git
-    sudo yum -y install git
-}
-
-#
-# Installs ruby 2.4.* and bundler (package manager)
-#
-function install_ruby() {
-    # Install Ruby Version Manager (RVM) [https://rvm.io/rvm/install]
-    curl -sSL https://rvm.io/mpapis.asc | gpg2 --import -
-    \curl -sSL https://get.rvm.io | bash -s stable --ruby
-    gem install bundler
-
-    # TODO - Move to SA CLI installer setup
-    bundle install
+    sudo yum -y -q install git
 }
 
 #
@@ -115,40 +122,54 @@ function configure_root_db_user() {
     sudo mysql -e "FLUSH PRIVILEGES"
 }
 
+default "PROVISIONING VM"
 
+info "Updating installed packages..."
+#update_packages
+success "\t- Installation complete"
+
+info "Installing system dependencies..."
 install_dependencies
+success "\t- Installation complete"
 
 # Install git if not found
-echoWithColor BLUE, "\t- Verifying Git installation";
+info "Verifying Git installation";
 if ! rpm -qa | grep -qw git; then
-    echoWithColor BLUE, "\t\tInstalling Git"
+    info "\tInstalling Git"
     install_git
+    success "\t\t- Installation complete"
 fi
 
 # Install php if not found
-echoWithColor BLUE, "\t- Verifying PHP installation";
+info "Verifying PHP installation";
 if ! whereis php | grep -qw /usr/bin/php; then
-    echoWithColor BLUE, "\t\tInstalling PHP 7.*"
+    info "\tInstalling PHP 7.* ..."
     install_php
+    success "\t\t- Installation complete"
 fi
 
 # Install composer if not found
-echoWithColor BLUE, "\t- Verifying Composer installation";
-if ! whereis composer | grep -qw /usr/bin/composer; then
-    echoWithColor BLUE, "\t\tInstalling Composer"
+info "Verifying Composer installation";
+if ! whereis composer | grep -qw /usr/local/bin/composer; then
+    info "\tInstalling Composer..."
     install_composer
+    success "\t\t- Installation complete"
 fi
 
 # Install httpd if not found
-echoWithColor BLUE, "\t- Verifying Apache (HTTPD) installation";
+info "Verifying Apache (HTTPD) installation";
 if ! whereis httpd | grep -qw /usr/sbin/httpd; then
-    echoWithColor BLUE, "\t\tInstalling Apache2"
+    info "\tInstalling Apache2"
     install_apache2
+    psuccess "\t\t- Installation complete"
 fi
 
 # Install maria DB if not found
-echoWithColor BLUE, "\t- Verifying Maria DB installation";
+info "Verifying Maria DB installation";
 if ! rpm -qa | grep -qw mariadb-server; then
-    echoWithColor BLUE, "\t\tInstalling MariaDB"
+    info "Installing MariaDB"
     install_maria_db
+    success "\t\t- Installation complete"
 fi
+
+default "PROVISION COMPLETE"
