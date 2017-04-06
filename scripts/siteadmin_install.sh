@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 
+# Todo - Before install, verify MySql, Git, and Composer creds (global settings?)
+# Todo - Fix MySql connection issues
+# Todo - Install database
+# Todo - Configure hosts (before provision?)
+# Todo - Warm up SA's first time boot
+
 while getopts d: option
 do
     case "${option}"

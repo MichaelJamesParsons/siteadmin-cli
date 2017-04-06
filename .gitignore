@@ -3,6 +3,8 @@
 *.sublime-workspace
 *.php~
 .idea
+.vagrant
+.cache
 /siteadmin/config/devconfig.php
 /siteadmin/composer.lock
 /siteadmin/composer.phar

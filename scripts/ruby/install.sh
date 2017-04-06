@@ -24,6 +24,9 @@ then
     info "Installing ruby RVM. This will take a few minutes. Go get some coffee!"
     install_ruby
     echo 'source ~/.rvm/scripts/rvm' >> ~/.bashrc
+
+    # Todo - command waits for user to press "enter" before continuing
+    source ~/.bashrc
 else
     default "Ruby version manager already installed. Skipping."
 fi
@@ -36,6 +39,8 @@ then
     rvm install ruby-2.4.0
 
     info "Changing ruby version from ${ruby_version}"
+
+    # Todo - ruby command not recognized. Update bashrc?
     rvm use 2.4.0
 else
     default "Already using Ruby 2.4.0. Skipping."
