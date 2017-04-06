@@ -25,8 +25,12 @@ then
     install_ruby
     echo 'source ~/.rvm/scripts/rvm' >> ~/.bashrc
 
+    warning "attempting to simulate enter"
     # Todo - command waits for user to press "enter" before continuing
-    source ~/.bashrc
+    . ~/.bashrc
+
+    warning "simulation complete"
+
 else
     default "Ruby version manager already installed. Skipping."
 fi
@@ -37,7 +41,7 @@ then
     warning "Ruby version ${ruby_version} is installed. Ruby v2.4.* expected."
     info "Installing ruby 2.4.*. This will take a few minutes."
     rvm install ruby-2.4.0
-
+    . ~/.bashrc
     info "Changing ruby version from ${ruby_version}"
 
     # Todo - ruby command not recognized. Update bashrc?
@@ -50,5 +54,6 @@ info "Installing bundler ruby package manager"
 gem install bundler > /dev/null
 
 info "Installing new package dependencies"
-bundle install &> /dev/null
+bundle install  &> /dev/null
 bundle update &> /dev/null
+. ~/.bashrc
