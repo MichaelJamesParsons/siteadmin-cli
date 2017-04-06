@@ -8,9 +8,6 @@ IS_FORCED_INSTALL=0
 
 source "${CLI_CURRENT_DIR}/../scripts/output/logger.sh"
 
-info "Setting up environment"
-source "${CLI_CURRENT_DIR}/../scripts/ruby/install.sh"
-
 #If user passed -f (--force) flag, enable forced install
 while test $# != 0
 do
@@ -47,6 +44,9 @@ function purge() {
     fi
 }
 
+info "Setting up CLI environment"
+source "${CLI_CURRENT_DIR}/../scripts/ruby/install.sh"
+
 # If siteadmin CLI is already installed
 if [ -d ${CLI_ROOT_DIR} ]
 then
@@ -62,7 +62,7 @@ then
     purge
 fi
 
-info "Installing Siteadmin CLI client..."
+info "Configuring client"
 install
 
 success "Done"
