@@ -53,10 +53,9 @@ module Siteadmin
 
       puts 'done'
     end
-
-    def setup
-
-    end
+    
+    desc 'config [mysql|git] [<args>...]', 'Set environment configuration values.'
+    subcommand 'config', Commands::Config
 
     desc 'ioc COMMAND [<args>...]', 'Manage application ioc files. For these commands to work, you must be inside of a valid Siteadmin project.'
     subcommand 'ioc', Commands::Ioc
