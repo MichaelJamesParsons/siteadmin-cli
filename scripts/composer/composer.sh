@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-source "output/logger.sh"
+source "../output/logger.sh"
 
 LOG_FILE="composer"
 COMPOSER_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
