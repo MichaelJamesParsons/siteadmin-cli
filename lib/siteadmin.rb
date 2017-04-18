@@ -53,7 +53,7 @@ module Siteadmin
 
       puts 'done'
     end
-    
+
     desc 'config [mysql|git] [<args>...]', 'Set environment configuration values.'
     subcommand 'config', Commands::Config
 
