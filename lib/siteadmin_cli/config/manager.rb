@@ -7,7 +7,8 @@ module SiteadminCli
       CONFIG_PATH = '~/.siteadmin-cli/config.yaml'
 
       def get_config
-        get_config_file_contents(CONFIG_PATH)
+        config_path = File.expand_path CONFIG_PATH
+        get_config_file_contents(config_path)
       end
 
       def flush(config)
@@ -30,7 +31,7 @@ module SiteadminCli
           FileUtils.mkpath File.dirname(file_path)
         end
 
-        File.open(file_path, 'a+') {|f| f.write contents.to_yaml}
+        File.open(file_path, 'w') {|f| f.write contents.to_yaml}
       end
 
     end
