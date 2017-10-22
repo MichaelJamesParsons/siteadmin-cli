@@ -1,0 +1,3 @@
+#!/usr/bin/env ruby
+
+require_relative './../../../opt/siteadmin-cli/lib/siteadmin'

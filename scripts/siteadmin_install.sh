@@ -1,9 +1,26 @@
 #!/usr/bin/env bash
 
-# Build siteadmin directory structure
-mkdir -p /vagrant/application
-cd /vagrant/application
+# Todo - Before install, verify MySql, Git, and Composer creds (global settings?)
+# Todo - Fix MySql connection issues
+# Todo - Install database
+# Todo - Configure hosts (before provision?)
+# Todo - Warm up SA's first time boot
 
+while getopts d: option
+do
+    case "${option}"
+    in
+        d) APP_DIR_PATH=${OPTARG};;
+    esac
+done
+
+
+echo "Building SA3 directory structure"
+
+# Build siteadmin directory structure
+mkdir -p "${APP_DIR_PATH}"
+
+cd "${APP_DIR_PATH}"
 declare -a sa_directories=(
     "html"
     "uploads"
@@ -25,6 +42,8 @@ for dir in "${sa_directories[@]}"
 do
     mkdir -p ${dir}
 done
+
+echo "Installing bootstrap files"
 
 # Make index.php file
 cat > html/index.php << EOF
@@ -89,6 +108,8 @@ session_start();
 EOF
 
 # Make .gitignore files
+echo "Initializing .gitignore files"
+
 cat > .gitignore << EOF
 *.DS_Store
 *.sublime-project
@@ -115,7 +136,7 @@ cat > siteadmin/generated_code/.gitignore << EOF
 *!.gitignore
 EOF
 cat > siteadmin/tests/.gitignore << EOF
-*!.gitignore
+*!.gitignorez
 EOF
 
 cat > siteadmin/migrations/.gitignore << EOF
@@ -125,6 +146,3 @@ EOF
 cat > uploads/.gitignore << EOF
 *!.gitignore
 EOF
-
-cd siteadmin
-/usr/local/bin/composer install
