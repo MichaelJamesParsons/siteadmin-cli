@@ -1,6 +1,6 @@
 # Siteadmin CLI
 
-A command-line interface for Siteadmin 3.
+A CLI installer/environment management tool for eLink Design's content management system, Siteadmin 3.
 
 ## Dependencies
  MySQL 5.7.6
